@@ -1,4 +1,4 @@
-module github.com/bsalbilla06/svg-path
+module github.com/bsalbilla06/svgpath
 
 go 1.23.0
 
