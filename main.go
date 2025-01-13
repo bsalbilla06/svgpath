@@ -7,12 +7,7 @@ import (
 	"googlemaps.github.io/maps"
 )
 
-func GeneratePath(polyline string) (string, error) {
-	coordinates, err := maps.DecodePolyline(polyline)
-	if err != nil || len(coordinates) < 2 {
-		return "", err
-	}
-
+func GeneratePathCoordinates(coordinates []maps.LatLng) (string, error) {
 	max, min := findMaxAndMin(coordinates)
 	coordinates = standardizePoints(coordinates, max, min)
 
@@ -23,6 +18,21 @@ func GeneratePath(polyline string) (string, error) {
 		} else {
 			res = fmt.Sprintf("%sL %v %v ", res, coordinate.Lng, coordinate.Lat)
 		}
+	}
+
+	return res, nil
+}
+
+
+func GeneratePathPolyline(polyline string) (string, error) {
+	coordinates, err := maps.DecodePolyline(polyline)
+	if err != nil || len(coordinates) < 2 {
+		return "", err
+	}
+
+	res, err := GeneratePathCoordinates(coordinates)
+	if err != nil {
+		return "", err
 	}
 
 	return res, nil
